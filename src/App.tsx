@@ -279,7 +279,10 @@ export default function App() {
           <section className="panel resultPanel">
             <div>
               <p className="eyebrow">Solar LCOE</p>
-              <p className="bigResult">{lcoe(result.totalLcoe)}</p>
+              <p className="bigResult">
+                <span>${oneDecimal.format(result.totalLcoe)}</span>
+                <span className="bigUnit">/MWh</span>
+              </p>
               <p className="subResult">{oneDecimal.format(result.centsKwh)}¢/kWh</p>
             </div>
             <div className="metricGrid">

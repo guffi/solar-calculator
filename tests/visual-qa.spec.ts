@@ -29,7 +29,7 @@ test('calculator renders and core controls respond', async ({ page }, testInfo) 
 
   const initialLcoe = await page.locator('.bigResult').innerText();
   await page.getByRole('button', { name: 'Off' }).click();
-  await expect(page.getByText('ITC face value')).toBeVisible();
+  await expect(page.locator('.resultPanel').getByText('ITC face value')).toBeVisible();
   await expect(page.locator('.bigResult')).not.toHaveText(initialLcoe);
 
   await page.getByRole('button', { name: 'AC' }).click();

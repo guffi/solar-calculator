@@ -32,7 +32,7 @@ test('calculator renders and core controls respond', async ({ page }, testInfo) 
   await expect(page.locator('.resultPanel').getByText('ITC face value')).toBeVisible();
   await expect(page.locator('.bigResult')).not.toHaveText(initialLcoe);
 
-  await page.getByRole('button', { name: 'AC' }).click();
+  await page.getByRole('button', { name: 'AC', exact: true }).click();
   await expect(page.getByText('DC/AC ratio')).toBeVisible();
 
   const downloadPromise = page.waitForEvent('download');

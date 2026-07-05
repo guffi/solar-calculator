@@ -276,24 +276,27 @@ export default function App() {
         </aside>
 
         <section className="outputs">
-          <section className="panel resultPanel">
-            <div>
+          <section className="topResults">
+            <section className="panel resultPanel">
               <p className="eyebrow">Solar LCOE</p>
               <p className="bigResult">
                 <span>${oneDecimal.format(result.totalLcoe)}</span>
                 <span className="bigUnit">/MWh</span>
               </p>
               <p className="subResult">{oneDecimal.format(result.centsKwh)}¢/kWh</p>
-            </div>
-            <div className="metricGrid">
-              <span><b>{whole.format(result.usableGenerationMwh)}</b>MWh/year</span>
-              <span><b>{oneDecimal.format(result.averageOutputMw)}</b>average MW</span>
-              <span><b>{moneyMillions(result.grossCapex)}</b>gross capex</span>
-              <span><b>{moneyMillions(result.netCapex)}</b>net capex</span>
-              <span><b>{moneyMillions(result.itcFaceValue)}</b>ITC face value</span>
-              <span><b>{moneyMillions(result.itcCashValue)}</b>ITC cash value</span>
-            </div>
-            {result.paybackLcoe ? <p className="payback">10-year payback-style cost: {lcoe(result.paybackLcoe)}. This is not standard solar LCOE.</p> : null}
+              {result.paybackLcoe ? <p className="payback">10-year payback-style cost: {lcoe(result.paybackLcoe)}. This is not standard solar LCOE.</p> : null}
+            </section>
+
+            <section className="panel metricsPanel">
+              <div className="metricGrid">
+                <span><b>{whole.format(result.usableGenerationMwh)}</b>MWh/year</span>
+                <span><b>{oneDecimal.format(result.averageOutputMw)}</b>average MW</span>
+                <span><b>{moneyMillions(result.grossCapex)}</b>gross capex</span>
+                <span><b>{moneyMillions(result.netCapex)}</b>net capex</span>
+                <span><b>{moneyMillions(result.itcFaceValue)}</b>ITC face value</span>
+                <span><b>{moneyMillions(result.itcCashValue)}</b>ITC cash value</span>
+              </div>
+            </section>
           </section>
 
           {result.warnings.length ? (

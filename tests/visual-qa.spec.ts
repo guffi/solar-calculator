@@ -33,7 +33,7 @@ test('calculator renders and core controls respond', async ({ page }, testInfo) 
   await expect(page.locator('.bigResult')).not.toHaveText(initialLcoe);
 
   await page.getByRole('button', { name: 'AC', exact: true }).click();
-  await expect(page.getByText('DC/AC ratio')).toBeVisible();
+  await expect(page.locator('.inputs').getByText('DC/AC ratio')).toBeVisible();
 
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export CSV' }).click();

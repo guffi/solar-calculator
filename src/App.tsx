@@ -148,7 +148,7 @@ export default function App() {
     ['Project life', `${input.projectLife} years`, 'Standard LCOE recovery period'],
     ['Degradation', `${pct(input.degradation, 2)}/year`, 'Lifetime average generation is used'],
     ['Curtailment', pct(input.curtailment), 'Unused energy raises useful-energy LCOE'],
-    ['Land lease', input.landMode === 'mwh' ? `$${oneDecimal.format(input.landCostMwh)}/MWh` : `${dollars.format(input.leaseRateAcreYear)}/acre-year`, 'Modeled separately from O&M'],
+    ['Land lease', `$${oneDecimal.format(input.landCostMwh)}/MWh`, 'Modeled separately from O&M'],
     ['ITC', input.itcEnabled ? `${pct(input.itcPercent, 0)} enabled` : 'Off', 'Tax credit monetization is shown separately'],
     ['Storage / grid export', 'Excluded', 'No storage, export revenue, or interconnection costs by default'],
   ];
@@ -203,21 +203,23 @@ export default function App() {
               <span>Capacity factor basis</span>
               <Toggle value={input.capacityMode} options={[{ value: 'dc', label: 'DC' }, { value: 'ac', label: 'AC' }]} onChange={(capacityMode) => setInput((current) => ({ ...current, capacityMode }))} />
             </div>
-            <Field label="Capacity factor" value={input.capacityFactor * 100} min={14} max={32} step={0.5} unit="%" help="If capex is in $/Wdc, DC capacity factor is the cleanest apples-to-apples input." onChange={(value) => setNumber('capacityFactor', value / 100)} />
+            <Field
+              label={input.capacityMode === 'dc' ? 'DC capacity factor' : 'AC capacity factor'}
+              value={input.capacityFactor * 100}
+              min={14}
+              max={32}
+              step={0.5}
+              unit={input.capacityMode === 'dc' ? '% DC' : '% AC'}
+              help={
+                input.capacityMode === 'dc'
+                  ? 'DC basis matches $/Wdc capex directly.'
+                  : 'AC basis is converted to DC-equivalent using the DC/AC ratio below.'
+              }
+              onChange={(value) => setNumber('capacityFactor', value / 100)}
+            />
             {input.capacityMode === 'ac' ? <Field label="DC/AC ratio" value={input.dcAcRatio} min={1} max={1.6} step={0.05} unit="ratio" help="Used when AC capacity factor is entered. 10 MWdc / 7.7 MWac is about 1.3." onChange={(value) => setNumber('dcAcRatio', value)} /> : null}
             <Field label="Project life" value={input.projectLife} min={10} max={40} step={1} unit="years" help="Standard solar LCOE often uses 25–35 years." onChange={(value) => setNumber('projectLife', value)} />
-            <div className="modeLine">
-              <span>Land mode</span>
-              <Toggle value={input.landMode} options={[{ value: 'mwh', label: '$/MWh' }, { value: 'acreYear', label: '$/acre-year' }]} onChange={(landMode) => setInput((current) => ({ ...current, landMode }))} />
-            </div>
-            {input.landMode === 'mwh' ? (
-              <Field label="Land lease" value={input.landCostMwh} min={0} max={8} step={0.25} unit="$/MWh" help="For West Texas or New Mexico, land may add roughly $1–5/MWh." onChange={(value) => setNumber('landCostMwh', value)} />
-            ) : (
-              <>
-                <Field label="Lease rate" value={input.leaseRateAcreYear} min={100} max={2000} step={25} unit="$/acre-year" help="Annual land lease price." onChange={(value) => setNumber('leaseRateAcreYear', value)} />
-                <Field label="Land intensity" value={input.acresPerMw} min={3} max={10} step={0.25} unit="acres/MWdc" help="Ground-mounted PV land use assumption." onChange={(value) => setNumber('acresPerMw', value)} />
-              </>
-            )}
+            <Field label="Land lease" value={input.landCostMwh} min={0} max={8} step={0.25} unit="$/MWh" help="Modeled directly as a cost per usable MWh. For West Texas or New Mexico, land may add roughly $1–5/MWh." onChange={(value) => setInput((current) => ({ ...current, landMode: 'mwh', landCostMwh: value }))} />
             <div className="switchRow">
               <span>Federal ITC</span>
               <button className={input.itcEnabled ? 'switch on' : 'switch'} onClick={() => setInput((current) => ({ ...current, itcEnabled: !current.itcEnabled }))}>
@@ -282,7 +284,7 @@ export default function App() {
                 <p>
                   Assumes {oneDecimal.format(input.systemMwDc)} MWdc, ${result.capexWdc.toFixed(2)}/Wdc gross capex, {pct(input.capacityFactor)}{' '}
                   {input.capacityMode.toUpperCase()} capacity factor, {pct(input.wacc)} real WACC, {input.projectLife}-year life, $
-                  {oneDecimal.format(result.omKwYear)}/kWdc-year O&M, {input.landMode === 'mwh' ? `$${oneDecimal.format(input.landCostMwh)}/MWh land lease` : 'acre-year land lease'}, no storage, no grid/export costs.
+                  {oneDecimal.format(result.omKwYear)}/kWdc-year O&M, ${oneDecimal.format(input.landCostMwh)}/MWh land lease, no storage, no grid/export costs.
                 </p>
                 {input.itcEnabled ? <p>Includes {pct(input.itcPercent, 0)} federal ITC. Face value and monetized value are shown separately.</p> : null}
               </div>

@@ -47,7 +47,7 @@ export function loadFromUrl(): SolarInputs {
       (next[key] as string) = raw;
     }
   }
-  return next;
+  return { ...next, landMode: 'mwh' };
 }
 
 export function makeScenarioUrl(input: SolarInputs) {

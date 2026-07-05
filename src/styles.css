@@ -42,19 +42,19 @@ button:hover { border-color: #aab9b4; }
 .outputs { min-width: 0; }
 .panel, .details { border: 1px solid var(--border); background: var(--panel); border-radius: 8px; box-shadow: var(--shadow); }
 .panel { padding: 18px; }
-.summaryPanel { display: grid; gap: 8px; color: var(--muted); line-height: 1.45; }
+.summaryPanel { display: grid; align-content: center; gap: 7px; color: var(--muted); line-height: 1.42; border-left: 1px solid var(--border); padding-left: 18px; }
 .summaryPanel h2 { color: var(--text); }
 .sectionTitle, .modeLine, .switchRow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .sectionTitle { margin-bottom: 12px; }
 
-.field { display: grid; gap: 7px; padding: 12px 0; border-top: 1px solid #edf2f0; }
+.field { display: grid; grid-template-columns: minmax(120px, .72fr) minmax(120px, 1fr) 76px; gap: 8px 10px; align-items: center; padding: 10px 0; border-top: 1px solid #edf2f0; }
 .sectionTitle + .field { border-top: 0; }
-.fieldTop { display: flex; justify-content: space-between; gap: 10px; color: var(--text); font-size: 13px; font-weight: 720; }
+.fieldTop { display: grid; gap: 3px; color: var(--text); font-size: 13px; font-weight: 720; }
 .unit { color: var(--muted); font-weight: 650; }
-.fieldControl { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 10px; align-items: center; }
+.fieldControl { display: contents; }
 input[type="range"] { width: 100%; accent-color: var(--accent); }
-.number { width: 100%; height: 34px; border: 1px solid var(--border-strong); border-radius: 7px; padding: 0 8px; background: var(--panel-soft); color: var(--text); }
-.help { color: var(--muted); font-size: 12px; line-height: 1.42; }
+.number { width: 100%; height: 32px; border: 1px solid var(--border-strong); border-radius: 7px; padding: 0 8px; background: var(--panel-soft); color: var(--text); }
+.help { grid-column: 1 / -1; color: var(--muted); font-size: 11px; line-height: 1.35; }
 .toggle { display: inline-flex; border: 1px solid var(--border-strong); border-radius: 8px; overflow: hidden; background: var(--panel-soft); }
 .toggle button { border: 0; border-radius: 0; box-shadow: none; min-height: 32px; padding: 0 10px; background: transparent; color: var(--muted); }
 .toggle button.active { background: var(--accent); color: #fff; }
@@ -65,8 +65,8 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 .details[open] summary::after { content: "-"; }
 .detailsBody { padding: 0 18px 16px; }
 
-.topResults { display: grid; grid-template-columns: minmax(260px, .9fr) minmax(250px, 1fr); gap: 14px; align-items: stretch; position: sticky; top: 12px; z-index: 1; }
-.resultPanel { display: grid; align-content: center; }
+.topResults { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .58fr); gap: 14px; align-items: stretch; position: sticky; top: 12px; z-index: 1; }
+.resultPanel { display: grid; grid-template-columns: minmax(220px, .72fr) minmax(240px, 1fr); gap: 18px; align-items: center; }
 .eyebrow { color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
 .bigResult { display: flex; align-items: baseline; flex-wrap: nowrap; gap: 4px; max-width: 100%; margin-top: 4px; font-size: clamp(46px, 5vw, 68px); line-height: .95; font-weight: 780; font-variant-numeric: tabular-nums; letter-spacing: 0; white-space: nowrap; }
 .bigUnit { font-size: .38em; color: var(--accent-strong); white-space: nowrap; }
@@ -95,7 +95,7 @@ td:nth-child(2) { color: var(--text); font-variant-numeric: tabular-nums; white-
   .headerActions { justify-content: flex-start; }
   .layout { display: flex; flex-direction: column; }
   .outputs, .topResults { display: contents; }
-  .resultPanel { position: static; order: 1; }
+  .resultPanel { position: static; order: 1; grid-template-columns: minmax(220px, .72fr) minmax(240px, 1fr); }
   .inputs { order: 2; }
   .metricsPanel { order: 3; }
   .warnings { order: 4; }
@@ -110,7 +110,11 @@ td:nth-child(2) { color: var(--text); font-variant-numeric: tabular-nums; white-
   .shell { width: min(100% - 22px, 1240px); padding-top: 18px; }
   .panel { padding: 14px; }
   .headerActions button { flex: 1 1 150px; }
-  .fieldControl { grid-template-columns: 1fr; }
+  .resultPanel { grid-template-columns: 1fr; gap: 12px; }
+  .summaryPanel { border-left: 0; border-top: 1px solid var(--border); padding: 12px 0 0; }
+  .field { grid-template-columns: 1fr 70px; gap: 7px 9px; }
+  .fieldTop, .help { grid-column: 1 / -1; }
+  .fieldControl { display: contents; }
   .number { height: 40px; }
   .metricGrid { grid-template-columns: 1fr; }
   .bigResult { font-size: 54px; }

@@ -190,16 +190,6 @@ export default function App() {
 
       <section className="layout">
         <aside className="inputs">
-          <section className="panel summaryPanel">
-            <h2>Scenario summary</h2>
-            <p>
-              Assumes {oneDecimal.format(input.systemMwDc)} MWdc, ${result.capexWdc.toFixed(2)}/Wdc gross capex, {pct(input.capacityFactor)}{' '}
-              {input.capacityMode.toUpperCase()} capacity factor, {pct(input.wacc)} real WACC, {input.projectLife}-year life, $
-              {oneDecimal.format(result.omKwYear)}/kWdc-year O&M, {input.landMode === 'mwh' ? `$${oneDecimal.format(input.landCostMwh)}/MWh land lease` : 'acre-year land lease'}, no storage, no grid/export costs.
-            </p>
-            {input.itcEnabled ? <p>Includes {pct(input.itcPercent, 0)} federal ITC. Face value and monetized value are shown separately.</p> : null}
-          </section>
-
           <section className="panel">
             <div className="sectionTitle">
               <h2>Primary inputs</h2>
@@ -278,13 +268,24 @@ export default function App() {
         <section className="outputs">
           <section className="topResults">
             <section className="panel resultPanel">
-              <p className="eyebrow">Solar LCOE</p>
-              <p className="bigResult">
-                <span>${oneDecimal.format(result.totalLcoe)}</span>
-                <span className="bigUnit">/MWh</span>
-              </p>
-              <p className="subResult">{oneDecimal.format(result.centsKwh)}¢/kWh</p>
-              {result.paybackLcoe ? <p className="payback">10-year payback-style cost: {lcoe(result.paybackLcoe)}. This is not standard solar LCOE.</p> : null}
+              <div className="headlineResult">
+                <p className="eyebrow">Solar LCOE</p>
+                <p className="bigResult">
+                  <span>${oneDecimal.format(result.totalLcoe)}</span>
+                  <span className="bigUnit">/MWh</span>
+                </p>
+                <p className="subResult">{oneDecimal.format(result.centsKwh)}¢/kWh</p>
+                {result.paybackLcoe ? <p className="payback">10-year payback-style cost: {lcoe(result.paybackLcoe)}. This is not standard solar LCOE.</p> : null}
+              </div>
+              <div className="summaryPanel">
+                <h2>Scenario summary</h2>
+                <p>
+                  Assumes {oneDecimal.format(input.systemMwDc)} MWdc, ${result.capexWdc.toFixed(2)}/Wdc gross capex, {pct(input.capacityFactor)}{' '}
+                  {input.capacityMode.toUpperCase()} capacity factor, {pct(input.wacc)} real WACC, {input.projectLife}-year life, $
+                  {oneDecimal.format(result.omKwYear)}/kWdc-year O&M, {input.landMode === 'mwh' ? `$${oneDecimal.format(input.landCostMwh)}/MWh land lease` : 'acre-year land lease'}, no storage, no grid/export costs.
+                </p>
+                {input.itcEnabled ? <p>Includes {pct(input.itcPercent, 0)} federal ITC. Face value and monetized value are shown separately.</p> : null}
+              </div>
             </section>
 
             <section className="panel metricsPanel">

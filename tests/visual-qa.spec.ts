@@ -34,7 +34,7 @@ test('calculator renders and core controls respond', async ({ page }, testInfo) 
 
   await page.getByRole('button', { name: 'AC', exact: true }).click();
   await expect(page.locator('.inputs').getByText('AC capacity factor', { exact: true })).toBeVisible();
-  await expect(page.locator('.inputs').getByText('DC/AC ratio')).toBeVisible();
+  await expect(page.locator('.inputs').getByText('DC/AC ratio', { exact: true })).toBeVisible();
 
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export CSV' }).click();
